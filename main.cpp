@@ -8,5 +8,6 @@ int main()
     {
         arr[i] *= 2;
         std::printf("arr[%d] = %d\n", i, arr[i]);
+        printf("yay");
     }
 }
