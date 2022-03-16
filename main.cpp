@@ -74,11 +74,17 @@ auto                                          main() -> int
                 switch (op)
                 {
                         case 1: res = add(a, b);
+                        break;
                         case 2: res = subtract(a, b);
+                        break;
                         case 3: res = multiply(a, b);
+                        break;
                         case 4: res = divide(a, b);
+                        break;
                         case 5: res = rem(a, b);
+                        break;
                         case 6:res = power(a, b);
+                        break;
                         default: std::cout << "Unknown operation selected. Please select again." << '\n'; continue;
                 }
                 std::cout << "Result: " << res << '\n';
