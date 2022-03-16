@@ -71,22 +71,15 @@ auto                                          main() -> int
         do {
                 const auto op     = ask_user_arithemtic();
                 const auto [a, b] = ask_user_numbers();
-                switch (op)
-                {
-                        case 1: res = add(a, b);
-                        break;
-                        case 2: res = subtract(a, b);
-                        break;
-                        case 3: res = multiply(a, b);
-                        break;
-                        case 4: res = divide(a, b);
-                        break;
-                        case 5: res = rem(a, b);
-                        break;
-                        case 6:res = power(a, b);
-                        break;
-                        default: std::cout << "Unknown operation selected. Please select again." << '\n'; continue;
-                }
+                const auto fn     = FN[op];
+                
+                if (op == 1){res = add(a, b);}
+                else if (op == 2){res = subtract(a, b);}
+                else if (op == 3){res = multiply(a, b);}
+                else if (op == 4){res = divide(a, b);}
+                else if (op == 5){res = rem(a, b);}
+                else if (op == 6){res = power(a, b);}
+                else{std::cout << "Unknown operation selected. Please select again." << '\n';}
                 std::cout << "Result: " << res << '\n';
                 if (!ask_user_continue()) { break; }
         } while (true);
