@@ -20,6 +20,13 @@ enum class Product
         MacStudio,
         Count,
 };
+enum class Color
+{
+        Blue,
+        Yellow,
+        Green,
+        Count,
+};
 
 struct Item
 {
@@ -67,5 +74,5 @@ auto main() -> int
         Item iphone7 {};
         iphone7.product = Product::IPhone;
         iphone7.price   = 359.99;        // GBP
-        iphone7.color = "Blue"; // Exercise: Assign a color.
+        iphone7.color = Color::Blue; // Exercise: Assign a color.
 }
