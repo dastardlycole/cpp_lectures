@@ -1,70 +1,49 @@
-#include <algorithm>
+// T2 - Beginning C++17
+// Chapter 3, Pg. 77 - 80
+// Chapter 11, Pg. 386
+
+// Enumerations and Structures
+
+#include <array>
 #include <iostream>
-#include <string>
-#include <vector>
 
-// The Sky is blue -> [The, Sky, is, blue]
-// TheSkyBlue
+// Exercise: Add another enumeration to Product. Similarly, extend the PRODUCT_NAMES array with the name for the new product and update the print_message function to show this new product.
 
-using Words = std::vector<std::string>;
-
-auto extract_words(Words& words, std::string text, std::string_view separators)
+// Apple Products
+enum class Product
 {
-        auto   start = text.find_first_not_of(separators);
-        size_t end {};
+        IPhone,
+        IPad,
+        Apple_Watch,
+        MacStudio,
+        Count,
+};
 
-        while (start != std::string::npos)
-        {
-                end = text.find_first_of(separators, start + 1);
-                if (end == std::string_view::npos) { end = text.length(); }
-                std::string s {text.substr(start, end - start)};
-                words.push_back(s);
-                start = text.find_first_not_of(separators, end + 1);
-        }
+constexpr std::string_view PRODUCT_NAMES[static_cast<int>(Product::Count)] = {
+        [static_cast<int>(Product::IPad)]      = "iPad",
+        [static_cast<int>(Product::MacStudio)] = "Mac Studio",
+        [static_cast<int>(Product::IPhone)]    = "iPhone",
+        [static_cast<int>(Product::Apple_Watch)]    = "Apple_Watch",
+};
+
+constexpr auto print_message()
+{
+        std::printf("Select Apple Product (%d: %s, %d: %s, %d: %s): ",
+                static_cast<int>(Product::IPhone),
+                PRODUCT_NAMES[static_cast<int>(Product::IPhone)].data(),
+                static_cast<int>(Product::IPad),
+                PRODUCT_NAMES[static_cast<int>(Product::IPad)].data(),
+                static_cast<int>(Product::MacStudio),
+                PRODUCT_NAMES[static_cast<int>(Product::MacStudio)].data(),
+                static_cast<int>(Product::Apple_Watch),
+                PRODUCT_NAMES[static_cast<int>(Product::Apple_Watch)].data());
 }
-auto isOdd(int i)
-        {
-               
-                if (i % 2 == 0)
-                        {return false;}
-                else
-                        {return true;}
-              
-        }
-auto main() -> int
-{
-        // std::cout << "Enter some text: ";
-        // std::string input {};
-        // std::getline(std::cin, input);
-        // Words words {};
-        // extract_words(words, input, " \t");
 
-        // std::for_each(words.begin(), words.end(), [](auto& w) { std::cout << w << '\n'; });
+auto main() -> int {
+        print_message();
 
-        std::vector<int>numbers {};
-        std::cout << "Enter a list of integers(0 to terminate): ";
-        std::string input {};
-        std::getline(std::cin,input);
-        
+        int opt {};
+        std::cin >> opt;
 
-                
-
-        for (char i:input)
-        {       
-                int x = i - '0';  
-                if(x==0)
-                {
-                        break;
-                }
-                if(i !=' ')
-                {
-                        numbers.push_back(x);
-                }
-                
-        }
-        std::for_each(numbers.begin(), numbers.end(), [](auto& w) { std::cout << w << '\n'; });
-        int noOdd = count_if(numbers.begin(), numbers.end(),isOdd);
-        std::cout << "Total no of odd numbers is: "<< noOdd<<"\n";
-        
-
+        std::cout << PRODUCT_NAMES[opt] << '\n';
 }
