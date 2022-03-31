@@ -12,3 +12,10 @@ enum class Product
         Shoes,
         Count,
 };
+struct Item
+{
+        std::string name;
+        Product type;
+        float price;
+
+};
