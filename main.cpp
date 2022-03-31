@@ -1,5 +1,5 @@
 
-#include <array>
+#include <vector>
 #include <iostream>
 
 // Products
@@ -18,4 +18,8 @@ struct Item
         Product type;
         float price;
 
+};
+struct Inventory
+{
+        std::vector<Item> new_vector;
 };
