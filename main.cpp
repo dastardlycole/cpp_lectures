@@ -21,5 +21,6 @@ struct Item
 };
 struct Inventory
 {
-        std::vector<Item> new_vector;
+        std::vector<Item> my_items;
+
 };
