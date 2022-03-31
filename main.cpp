@@ -2,11 +2,13 @@
 #include <array>
 #include <iostream>
 
-// Apple Products
+// Products
 enum class Product
 {
+        Invalid=-1,
         Cereal,
         Shampoo,
         Vegetables,
         Shoes,
+        Count,
 };
