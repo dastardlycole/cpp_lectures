@@ -317,9 +317,7 @@ struct InventoryUI
         auto run()
         {
                 std::printf("Shop Inventory v0.1\n");
-                std::string cust_name {};
-                std::printf("What is your name/business' name? \n");
-                std::getline(std::cin >> std::ws, cust_name);
+                
 
                 do {
                         list_options();
