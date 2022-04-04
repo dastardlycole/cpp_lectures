@@ -1,6 +1,7 @@
-
 #include <algorithm>
+#include <ios>
 #include <iostream>
+#include <optional>
 #include <vector>
 
 constexpr auto MAX_ITEMS      = 30;
