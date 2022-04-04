@@ -18,7 +18,8 @@ enum class Product
         Count,
 };
 
-/// @brief Holds the names of the product categories.
+/// @brief 
+ // Mr. Chatrapathi Akula (CA, 28.03.2022) 
 constexpr std::string_view PRODUCT_NAMES[static_cast<int>(Product::Count)] = {
     [static_cast<int>(Product::Cereal)]       = "Cereal",
     [static_cast<int>(Product::Shampoo)]      = "Shampoo",
@@ -227,8 +228,7 @@ struct InventoryUI
 
                                                 if (opt == static_cast<char>(Option::EditItem))
                                                 {
-                                                        // NOTE(CA, 28.03.2022) - This is cumbersome to use and also inefficient. You should swap in-place or
-                                                        // just edit a property of interest but that'd be more complicated.
+                                                       
                                                         const auto new_item = handle_add_option();
                                                         inventory.remove_item(pitem);
                                                         inventory.add_item(new_item);
