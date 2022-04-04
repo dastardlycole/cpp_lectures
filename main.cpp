@@ -1,15 +1,15 @@
 
-#include <vector>
-#include <iostream>
 #include <algorithm>
+#include <iostream>
+#include <vector>
 
 constexpr auto MAX_ITEMS      = 30;
-constexpr auto MAX_MODEL_NAME = 64; 
+constexpr auto MAX_MODEL_NAME = 64;
 
 // Products
 enum class Product
 {
-        Invalid=-1,
+        Invalid = -1,
         Cereal,
         Shampoo,
         Vegetables,
@@ -18,14 +18,12 @@ enum class Product
         Count,
 };
 
-/// @brief 
- // Mr. Chatrapathi Akula (CA, 28.03.2022) 
+/// @brief
+// Mr. Chatrapathi Akula (CA, 28.03.2022)
 constexpr std::string_view PRODUCT_NAMES[static_cast<int>(Product::Count)] = {
-    [static_cast<int>(Product::Cereal)]       = "Cereal",
-    [static_cast<int>(Product::Shampoo)]      = "Shampoo",
-    [static_cast<int>(Product::Vegetables)]   = "Vegetables",
-    [static_cast<int>(Product::Shoes)]        = "Shoes",
-    [static_cast<int>(Product::Fruits)]       = "Fruits",
+    [static_cast<int>(Product::Cereal)] = "Cereal",         [static_cast<int>(Product::Shampoo)] = "Shampoo",
+    [static_cast<int>(Product::Vegetables)] = "Vegetables", [static_cast<int>(Product::Shoes)] = "Shoes",
+    [static_cast<int>(Product::Fruits)] = "Fruits",
 };
 
 /// @brief Checks if the given product is valid.
@@ -55,9 +53,9 @@ auto list_products()
 struct Item
 {
         std::string name;
-        Product type;
-        float price;
-        int units;
+        Product     type;
+        float       price;
+        int         units;
         std::string best_before;
 
         Item() = default;
@@ -69,22 +67,22 @@ struct Item
         auto print() const { std::printf("%32s%64s%16.2f%8d\n", get_product_name(type).data(), name.c_str(), price, units); }
 };
 
-
 struct Inventory
 {
         using SearchPredicate = std::function<bool(const Item&)>;
         using Items           = std::vector<Item>;
-        using ItemPtr         = Items::iterator;   
-        
+        using ItemPtr         = Items::iterator;
+
         std::vector<Item> my_items;
-       
-        auto add_item(Item const& item)
-        {    
-                my_items.push_back(item);    
-                return true;}
-                
-        auto remove_item(ItemPtr item)        
-        {       
+
+        auto              add_item(Item const& item)
+        {
+                my_items.push_back(item);
+                return true;
+        }
+
+        auto remove_item(ItemPtr item)
+        {
                 // auto pos = std::find(my_items.begin(),my_items.end(),item);
                 // if (pos==my_items.end())
                 // {
@@ -96,23 +94,17 @@ struct Inventory
         // reference chat for find_item
         auto find_item(SearchPredicate const& pred)
         {
-                auto pitem = std::find_if(my_items.begin(),my_items.end(),pred);
-                if (pitem != my_items.end()) 
-                { 
-                        return pitem; 
-                }
+                auto pitem = std::find_if(my_items.begin(), my_items.end(), pred);
+                if (pitem != my_items.end()) { return pitem; }
 
                 return ItemPtr {};
         }
-        
+
         auto find_free_space()
         {
-                int size=0;
-                for(auto i:my_items)
-                {
-                      size+=i.units;  
-                }
-                int free_space=30-size;
+                int size = 0;
+                for (auto i : my_items) { size += i.units; }
+                int free_space = 30 - size;
                 return free_space;
         }
 
@@ -123,7 +115,6 @@ struct Inventory
                 std::for_each(my_items.begin(), my_items.end(), [](const auto& item) { item.print(); });
                 std::printf("---------------\n");
         }
-        
 };
 
 struct InventoryUI
@@ -143,7 +134,8 @@ struct InventoryUI
         Inventory inventory;
 
         auto      list_options()
-        {       std::cout<<"Inventory size is: "<<30-inventory.find_free_space()<<"/30\n";
+        {
+                std::cout << "Inventory size is: " << 30 - inventory.find_free_space() << "/30\n";
                 std::printf("(%c) Add Item\n", static_cast<char>(Option::AddItem));
                 std::printf("(%c) Search Item and view/remove/edit\n", static_cast<char>(Option::SearchItem));
                 std::printf("(%c) List Product Categories\n", static_cast<char>(Option::ListProducts));
@@ -207,42 +199,40 @@ struct InventoryUI
                         std::getline(std::cin >> std::ws, name);
                         pitem = inventory.find_item([&](const Item& item) { return item.name == name; });
 
-
-                        if (pitem != Inventory::ItemPtr {}){
+                        if (pitem != Inventory::ItemPtr {})
+                        {
                                 // we ask the user what they'd like to do with this found item
-                                        do {    
-                                                pitem->print();
-                                                std::printf("---------------\n");
+                                do {
+                                        pitem->print();
+                                        std::printf("---------------\n");
 
-                                                std::printf("(%c) Remove Item\n", static_cast<char>(Option::RemoveItem));
-                                                std::printf("(%c) Edit Item\n", static_cast<char>(Option::EditItem));
-                                                std::printf("(%c) Quit\n", static_cast<char>(Option::Quit));
-                                                const auto opt = get_user_action();
+                                        std::printf("(%c) Remove Item\n", static_cast<char>(Option::RemoveItem));
+                                        std::printf("(%c) Edit Item\n", static_cast<char>(Option::EditItem));
+                                        std::printf("(%c) Quit\n", static_cast<char>(Option::Quit));
+                                        const auto opt = get_user_action();
 
-                                                if (opt == static_cast<char>(Option::RemoveItem))
-                                                {
-                                                        inventory.remove_item(pitem);
-                                                        std::cout<<"Inventory size is: "<<30-inventory.find_free_space()<<"\n";
-                                                        break;
-                                                }
+                                        if (opt == static_cast<char>(Option::RemoveItem))
+                                        {
+                                                inventory.remove_item(pitem);
+                                                std::cout << "Inventory size is: " << 30 - inventory.find_free_space() << "\n";
+                                                break;
+                                        }
 
-                                                if (opt == static_cast<char>(Option::EditItem))
-                                                {
-                                                       
-                                                        const auto new_item = handle_add_option();
-                                                        inventory.remove_item(pitem);
-                                                        inventory.add_item(new_item);
-                                                        break;
-                                                }
+                                        if (opt == static_cast<char>(Option::EditItem))
+                                        {
+                                                const auto new_item = handle_add_option();
+                                                inventory.remove_item(pitem);
+                                                inventory.add_item(new_item);
+                                                break;
+                                        }
 
-                                                if (opt == static_cast<char>(Option::Quit)) { break; }
+                                        if (opt == static_cast<char>(Option::Quit)) { break; }
 
-                                                std::printf("Invalid option selected. Please try again.\n");
-                                                
-                                        } while (true);
+                                        std::printf("Invalid option selected. Please try again.\n");
+
+                                } while (true);
                         }
                         else { std::printf("Item not found. Try adding an item.\n"); }
-
                 }
                 else if (opt == 't')
                 {
@@ -254,26 +244,20 @@ struct InventoryUI
                         std::printf("Selected product category: %s\n", get_product_name(prod).data());
 
                         std::printf("%32s%64s%16s%8s\n", "Product", "Model Name", "Price (GBP)", "Qty.");
-                        for (auto the_item:inventory.my_items)
+                        for (auto the_item : inventory.my_items)
                         {
-                                if(the_item.type == prod)
-                                {the_item.print(); };
+                                if (the_item.type == prod) { the_item.print(); };
                         }
                         std::printf("---------------\n");
 
-                        do{
-                                
+                        do {
                                 std::printf("---------------\n");
                                 std::printf("(%c) Quit\n", static_cast<char>(Option::Quit));
                                 const auto opt = get_user_action();
                                 if (opt == static_cast<char>(Option::Quit)) { break; }
 
                                 std::printf("Invalid option selected. Please try again.\n");
-                        }while(true);        
-
-
-                        
-                        
+                        } while (true);
                 }
                 else if (opt == 'p')
                 {
@@ -284,40 +268,31 @@ struct InventoryUI
                         std::printf("Here are products that cost %f: \n", my_price);
 
                         std::printf("%32s%64s%16s%8s\n", "Product", "Model Name", "Price (GBP)", "Qty.");
-                        for (auto the_item:inventory.my_items)
+                        for (auto the_item : inventory.my_items)
                         {
-                                if(the_item.price == my_price)
-                                {the_item.print(); };
+                                if (the_item.price == my_price) { the_item.print(); };
                         }
                         std::printf("---------------\n");
 
-                        do{
-                                
+                        do {
                                 std::printf("---------------\n");
                                 std::printf("(%c) Quit\n", static_cast<char>(Option::Quit));
                                 const auto opt = get_user_action();
                                 if (opt == static_cast<char>(Option::Quit)) { break; }
 
                                 std::printf("Invalid option selected. Please try again.\n");
-                        }while(true);        
-
-
-                        
-                        
+                        } while (true);
                 }
                 else
                 {
                         std::printf("Invalid option selected. Please try again.\n");
                         return;
                 }
-
-                
-                        }
+        }
 
         auto run()
         {
                 std::printf("Shop Inventory v0.1\n");
-                
 
                 do {
                         list_options();
@@ -325,16 +300,21 @@ struct InventoryUI
                         if (opt == static_cast<char>(Option::AddItem))
                         {
                                 const auto item = handle_add_option();
-                                
+
                                 inventory.add_item(item);
-                                if (inventory.find_free_space()<=0)
-                                {Inventory::ItemPtr pitem = inventory.find_item([&](const Item& the_item) { return the_item.name == item.name; });
+                                if (inventory.find_free_space() <= 0)
+                                {
+                                        Inventory::ItemPtr pitem =
+                                            inventory.find_item([&](const Item& the_item) { return the_item.name == item.name; });
                                         inventory.remove_item(pitem);
-                                        std::cout<<"Unable to add item. Inventory has "<<inventory.find_free_space()<<"units of space left.\n\n";}
+                                        std::cout << "Unable to add item. Inventory has " << inventory.find_free_space()
+                                                  << "units of space left.\n\n";
+                                }
                                 else
-                                {std::printf("Added item\n\n");
-                                std::cout<<"Inventory size is: "<<30-inventory.find_free_space()<<"\n";}
-                                
+                                {
+                                        std::printf("Added item\n\n");
+                                        std::cout << "Inventory size is: " << 30 - inventory.find_free_space() << "\n";
+                                }
                         }
                         else if (opt == static_cast<char>(Option::SearchItem)) { handle_search_option(); }
                         else if (opt == static_cast<char>(Option::ListProducts)) { list_products(); }
